@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-sm-5">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= app.label %></div>
+
+      <div class="panel-body text-center">
+        <div class="btn-group">
+          <a class="btn btn-default" href="/apps/<%= app.id %>/test" rel="test_app">Test App</a>
+          <a class="btn btn-success" href="/apps/<%= app.id %>/message">Send Messages</a>
+        </div>
+      </div>
+
+      <ul class="list-group">
+        <li class="list-group-item"><span class="label label-default">App ID</span> <%= app.id %></li>
+        <li class="list-group-item"><span class="label label-default">Secret</span> <%= app.secret %></li>
+        <li class="list-group-item"><span class="label label-default">Access Token</span></li>
+        <li class="list-group-item">
+          <textarea class="form-control" readonly="readonly"><%= app.access_token %></textarea>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Update</div>
+      <div class="panel-body"><%= erb :_app_form, locals: {app: app} %></div>
+    </div>
+  </div>
+
+  <div class="col-sm-7">
+    <%= erb :_app_users, locals: {app: app} %>
+  </div>
+</div>

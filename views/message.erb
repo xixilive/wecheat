@@ -1,0 +1,15 @@
+<h2 class="text-muted">Current AppID: <%= app['appid'] %></h2>
+<div class="row">
+  <div class="col-sm-6">
+    <%= erb '_text_message_form'.to_sym, locals: { app: app } %>
+    <%= erb '_news_message_form'.to_sym, locals: { app: app } %>
+    <%= erb '_event_menus'.to_sym, locals: { app: app } %>
+  </div>
+
+  <div class="col-sm-6">
+    <%= erb '_media_message_form'.to_sym, locals: {app: app, media_type: 'image' } %>
+    <%= erb '_media_message_form'.to_sym, locals: {app: app, media_type: 'video' } %>
+    <%= erb '_media_message_form'.to_sym, locals: {app: app, media_type: 'voice' } %>
+    <%= erb '_media_message_form'.to_sym, locals: {app: app, media_type: 'music' } %>
+  </div>
+</div>

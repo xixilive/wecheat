@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Send <%= media_type.to_s.upcase %> Message</div>
+  <form class="form-horizontal panel-body" role="form" method="post" action="/apps/<%= app['appid'] %>/message">
+
+    <div class="form-group">
+      <label for="message-to-user" class="col-sm-2 control-label">To User</label>
+      <div class="col-sm-10">
+        <select id="message-to-user" class="form-control" name="message[touser]"><%= users_options %></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="message-content" class="col-sm-2 control-label"><%= media_type.to_s.upcase %></label>
+      <div class="col-sm-10">
+        <select id="message-content" class="form-control" name="message[<%= media_type %>][media_id]"><%= medias_options media_type.to_sym %></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Send</button>
+      </div>
+    </div>
+
+  </form>
+</div>

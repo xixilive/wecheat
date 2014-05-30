@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">Apps</div>
+      <ul class="list-group">
+        <% apps.each do |app| %>
+        <li class="list-group-item">
+          <h4 class="list-group-item-heading">AppID: <%= app['appid'] %></h4>
+        </li>
+        <li class="list-group-item">Secret: <%= app['secret'] %></li>
+        <li class="list-group-item" style="overflow:auto;">AccessToken: <%= app['access_token'] %></li>
+        <li class="list-group-item">Token: <%= app['token'] %></li>
+        <li class="list-group-item">Url: <%= app['url'] %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Users</div>
+      <ul class="list-group">
+        <% users.each do |user| %>
+        <li class="list-group-item">
+          <h4 class="list-group-item-heading"><%= user['nickname'] %></h4>
+        </li>
+        <li class="list-group-item">OpenID: <%= user['openid'] %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Menus</div>
+    </div>
+    
+  </div>
+
+</div>

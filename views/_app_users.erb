@@ -1,0 +1,51 @@
+<div class="panel-group" id="app-users-accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">Users<span class="badge pull-right"><%=  app.users.size %></span></div>
+    <ul class="list-group">
+    <% app.users.each do |user| %>
+    <li class="list-group-item">
+      <a class="btn btn-small btn-default" data-toggle="modal" href="#user-modal-<%= user.openid %>"><%= user.nickname %></a>
+      <span class="label label-default">OpenID</span> <span class="text-muted"><%= user.openid %></span></li>
+    <% end %>
+    </ul>
+  </div>
+</div>
+<!-- user modals -->
+<% app.users.each do |user| %>
+<div class="modal" id="user-modal-<%= user.openid %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Nickname: <%= user.nickname %></h4>
+      </div>
+
+      <div class="modal-body">
+        <ul class="list-group">
+        <% [:openid, :sex, :headimgurl, :subscribe, :subscribe_time, :language, :country, :province, :city].each do |k| %>
+          <li class="list-group-item"><span class="label label-default"><%= k %></span> <%= user[k] %></li>
+        <% end %>
+        </ul>
+
+      </div>
+
+      <div class="modal-footer">
+        <div class="text-center">
+          <div class="btn-group">
+            <a class="btn btn-small btn-default" href="/events/subscribe/<%= app.id %>/<%= user.openid %>" rel="fake_event">订阅</a>
+            <a class="btn btn-small btn-default" href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>" rel="fake_event">取消订阅</a>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-small btn-default" href="/events/subscribe/<%= app.id %>/<%= user.openid %>?event_key=qrscene_1" rel="fake_event">扫码(未关注)</a>
+            <a class="btn btn-small btn-default" href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>?event_key=1" rel="fake_event">扫码(已关注)</a>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-small btn-default" href="/events/LOCATION/<%= app.id %>/<%= user.openid %>" rel="fake_event">Location</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<% end %>

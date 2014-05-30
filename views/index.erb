@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-6">
+    <% apps.each do |app| %>
+    <div class="panel panel-default">
+      <div class="panel-heading text-center"><%= app.label %></div>
+      <div class="panel-body text-center">
+        <div class="btn-group">
+          <a class="btn btn-default" href="/apps/<%= app.id %>">Details</a>
+          <a class="btn btn-default" href="/apps/<%= app.id %>/test" rel="test_app">Test App</a>
+          <a class="btn btn-success" href="/apps/<%= app.id %>/message">Send Messages</a>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="col-sm-6">
+    
+  </div>
+</div>
