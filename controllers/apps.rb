@@ -13,6 +13,11 @@ module Wechat::Controllers
           erb :app, locals: { app: @app }
         end
 
+        delete '/apps/:id' do
+          @app.delete
+          redirect to('/')
+        end
+
         post '/apps/:id/test' do
           begin
             echostr = Wechat::Utils.rand_secret

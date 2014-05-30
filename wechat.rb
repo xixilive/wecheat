@@ -24,5 +24,15 @@ class WechatFaker < Sinatra::Base
     erb :index, locals: { apps: Wechat::Models::App.all }
   end
 
+  post '/' do
+    Wechat::Models.setup
+    redirect to('/')
+  end
+
+  delete '/' do
+    Wechat::Models.purge
+    redirect to('/')
+  end
+
   include Wechat::Controllers
 end

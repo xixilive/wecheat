@@ -47,9 +47,19 @@ module Wechat
         attr_reader :filename
 
         def write
-          File.open(File.join(Models.store_dir, "#{filename}.yml"), 'w'){|f| f.puts self.to_yaml }
+          File.open(file_path, 'w'){|f| f.puts self.to_yaml }
         end
         alias :save :write
+
+        def delete
+          FileUtils.rm_rf(file_path)
+        end
+        alias :remove :delete
+
+        private
+        def file_path
+          File.join(Models.store_dir, "#{filename}.yml")
+        end
 
       end
     end
