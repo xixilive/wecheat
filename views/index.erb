@@ -8,12 +8,10 @@
         <div class="btn-group">
           <a class="btn btn-default" href="/apps/<%= app.id %>">Details</a>
           <a class="btn btn-default" href="/apps/<%= app.id %>/test" rel="test_app">Test App</a>
-          <a class="btn btn-success" href="/apps/<%= app.id %>/message">Send Messages</a>
+          <a class="btn btn-info" href="/apps/<%= app.id %>/message">Send Messages</a>
           <button type="submit" class="btn btn-danger">Delete</a>
         </div>
-        <% if app.url.to_s == '' %>
-        <p class="text-danger">Needs to <a href="/apps/<%= app.id %>">set url</a> for this app!</p>
-        <% end %>
+        <%= app_none_url_alert app, true, true %>
       </form>
     </div>
     <% end %>

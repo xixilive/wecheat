@@ -1,4 +1,4 @@
-module Wechat
+module Wecheat
   module Controllers
     Dir[File.expand_path('./controllers/*.rb')].each{|f| require f }
     

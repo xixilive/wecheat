@@ -2,37 +2,37 @@ require 'sinatra'
 require 'sinatra/json'
 require 'rest_client'
 require 'erb'
-require 'hashie'
 
 require './models'
 require './helpers'
 require './controllers'
 
-class WechatFaker < Sinatra::Base
+class WecheatApp < Sinatra::Base
 
   configure do
     set :method_override, true
   end
 
   use Rack::Session::Pool, expire_after: 300
-  helpers Wechat::FormHelpers
+  helpers Wecheat::FormHelpers
+  helpers Wecheat::UrlHelpers
+  helpers Wecheat::HtmlHelpers
 
-  get "/favicon.ico" do
-  end
+  get "/favicon.ico" do;end
 
   get '/' do
-    erb :index, locals: { apps: Wechat::Models::App.all }
+    erb :index, locals: { apps: Wecheat::Models::App.all }
   end
 
   post '/' do
-    Wechat::Models.setup
+    Wecheat::Models.setup
     redirect to('/')
   end
 
   delete '/' do
-    Wechat::Models.purge
+    Wecheat::Models.purge
     redirect to('/')
   end
 
-  include Wechat::Controllers
+  include Wecheat::Controllers
 end

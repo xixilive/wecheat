@@ -1,42 +1,46 @@
-module Wechat
+module Wecheat
+  module HtmlHelpers
+    def app_none_url_alert app, with_link = false, text_only = false
+      unless app.url?
+        style = text_only ? 'text-danger' : 'alert alert-danger'
+        '<p class="%s">Needs to %s for this app!</p>' % [style, (with_link ? "<a href=\"/apps/#{app.id}\">set url</a>" : "set url")]
+      end
+    end
+  end
+
   module FormHelpers
-    def message_type_options
-      {
-        text: '文本消息',
-        image: '图片消息',
-        voice: '语音消息',
-        video: '视频消息',
-        music: '音乐消息',
-        news: '图文消息'
-      }
+    def users_select_options collection
+      select_options(collection){|item| [item.openid, item.nickname] }
     end
 
-    def appid_options
-      Wechat::Models::App.all.collect{|app| "<option value=\"#{app.id}\">#{app.id}</option>" }.join
+    def medias_select_options collection
+      select_options(collection){|item| [item.id, "#{item.path} (ID:#{item.id})"] }
     end
 
-    def users_options appid
-      app = Wechat::Models::App.find(appid)
-      app.users.collect{|user| "<option value=\"#{user.openid}\">#{user.nickname}</option>" }.join if app
-    end
-
-    def medias_options appid, type
-      ""
-    end
-
-    def news_options appid
+    def select_options collection, &block
+      collection.collect do |item|
+        options = yield(item)
+        "<option value=\"#{options[0]}\">#{options[1]}</option>"
+      end.join
     end
   end
 
   module UrlHelpers
     def media_url media
-      request.host
+      uri media.path
     end
 
     def article_url article
+      uri "/articles/#{article.id}"
     end
 
     def article_pic_url article
+      uri article.pic_path
+    end
+
+    def menu_item_url item, appid, openid
+      evt_key = item.type.to_s.downcase == 'click' ? item.key : CGI.escape(item.url.to_s)
+      '/events/%s/%s/%s?event_key=%s' % [item.type, appid, openid, evt_key]
     end
   end
 

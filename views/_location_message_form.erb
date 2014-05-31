@@ -1,7 +1,7 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Send Text Message</div>
+  <div class="panel-heading">Send Location Message</div>
   <form class="form-horizontal panel-body" role="form" method="post" action="/apps/<%= app.id %>/message" rel="message_form">
-    <input type="hidden" name="message[type]" value="text" />
+    <input type="hidden" name="message[type]" value="location" />
     <div class="form-group">
       <label for="message-from-user" class="col-sm-2 control-label">From</label>
       <div class="col-sm-10">
@@ -10,9 +10,16 @@
     </div>
 
     <div class="form-group">
-      <label for="message-content" class="col-sm-2 control-label">Content</label>
+      <label for="message-label" class="col-sm-2 control-label">Label</label>
       <div class="col-sm-10">
-        <input id="message-content" class="form-control" name="message[content]"></input>
+        <input id="message-label" class="form-control" name="message[label]" placeholder="Location label" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="message-scale" class="col-sm-2 control-label">Scale</label>
+      <div class="col-sm-10">
+        <input id="message-scale" class="form-control" name="message[scale]" placeholder="Scale level of map", value="12" />
       </div>
     </div>
 

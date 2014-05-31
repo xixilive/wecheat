@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Send Link Message</div>
+  <form class="form-horizontal panel-body" role="form" method="post" action="/apps/<%= app.id %>/message" rel="message_form">
+    <input type="hidden" name="message[type]" value="link" />
+    <div class="form-group">
+      <label for="message-from-user" class="col-sm-2 control-label">From</label>
+      <div class="col-sm-10">
+        <select id="message-from-user" class="form-control" name="message[user]"><%= users_select_options(app.users) %></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="message-url" class="col-sm-2 control-label">URL</label>
+      <div class="col-sm-10">
+        <input id="message-url" class="form-control" name="message[url]" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="message-title" class="col-sm-2 control-label">Title</label>
+      <div class="col-sm-10">
+        <input id="message-title" class="form-control" name="message[title]" placeholder="Link title" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="message-desc" class="col-sm-2 control-label">Desc</label>
+      <div class="col-sm-10">
+        <input id="message-desc" class="form-control" name="message[description]" placeholder="Link description" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Send</button>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -1,15 +1,49 @@
-<div class="panel-group" id="app-users-accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">Users<span class="badge pull-right"><%=  app.users.size %></span></div>
-    <ul class="list-group">
-    <% app.users.each do |user| %>
-    <li class="list-group-item">
-      <a class="btn btn-small btn-default" data-toggle="modal" href="#user-modal-<%= user.openid %>"><%= user.nickname %></a>
-      <span class="label label-default">OpenID</span> <span class="text-muted"><%= user.openid %></span></li>
-    <% end %>
-    </ul>
-  </div>
+<div class="panel panel-default">
+  <div class="panel-heading">Users<span class="badge pull-right"><%=  app.users.size %></span></div>
+  <ul class="list-group">
+  <% app.users.each do |user| %>
+  <li class="list-group-item clearfix">
+    <span class="label label-default">OpenID</span> <span class="text-muted"><%= user.openid %></span>
+    <span class="label label-default">Nickname</span> <a class="btn btn-link" data-toggle="modal" href="#user-modal-<%= user.openid %>"><%= user.nickname %></a>
+  </li>
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Events <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/events/subscribe/<%= app.id %>/<%= user.openid %>" rel="event">订阅</a></li>
+            <li><a href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>" rel="event">取消订阅</a></li>
+            <li class="divider"></li>
+            <li><a href="/events/subscribe/<%= app.id %>/<%= user.openid %>?event_key=qrscene_1" rel="event">扫码(未关注)</a></li>
+            <li><a href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>?event_key=1" rel="event">扫码(已关注)</a></li>
+            <li class="divider"></li>
+            <li><a href="/events/LOCATION/<%= app.id %>/<%= user.openid %>" rel="event">Location</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-8 text-right">
+        <div class="btn-group">
+          <% app.button.items.each do |item| %>
+            <% if item.sub_button.size > 0 %>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= item.name %> <span class="caret"></span></button>
+              <ul class="dropdown-menu text-left" role="menu">
+              <% item.items.each do |sub| %>
+              <li><a href="<%= menu_item_url(sub, app.id, user.openid) %>" rel="event"><%= sub.name %></a></li>
+              <% end %>
+              </ul>
+            <% else %>
+              <a class="btn btn-default" href="<%= menu_item_url(item, app.id, user.openid) %>" rel="event"><%= item.name %></a>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </li>
+  <% end %>
+  </ul>
 </div>
+
 <!-- user modals -->
 <% app.users.each do |user| %>
 <div class="modal" id="user-modal-<%= user.openid %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -27,22 +61,6 @@
         <% end %>
         </ul>
 
-      </div>
-
-      <div class="modal-footer">
-        <div class="text-center">
-          <div class="btn-group">
-            <a class="btn btn-small btn-default" href="/events/subscribe/<%= app.id %>/<%= user.openid %>" rel="fake_event">订阅</a>
-            <a class="btn btn-small btn-default" href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>" rel="fake_event">取消订阅</a>
-          </div>
-          <div class="btn-group">
-            <a class="btn btn-small btn-default" href="/events/subscribe/<%= app.id %>/<%= user.openid %>?event_key=qrscene_1" rel="fake_event">扫码(未关注)</a>
-            <a class="btn btn-small btn-default" href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>?event_key=1" rel="fake_event">扫码(已关注)</a>
-          </div>
-          <div class="btn-group">
-            <a class="btn btn-small btn-default" href="/events/LOCATION/<%= app.id %>/<%= user.openid %>" rel="fake_event">Location</a>
-          </div>
-        </div>
       </div>
 
     </div>

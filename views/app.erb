@@ -1,7 +1,4 @@
-<% if app.url.to_s == '' %>
-<p class="alert alert-danger">Needs to set url for this app!</p>
-<% end %>
-
+<%= app_none_url_alert app %>
 <div class="row">
   <div class="col-sm-5">
     <div class="panel panel-default">
@@ -32,5 +29,6 @@
 
   <div class="col-sm-7">
     <%= erb :_app_users, locals: {app: app} %>
+    <%= erb :_app_medias, locals: {app: app} %>
   </div>
 </div>

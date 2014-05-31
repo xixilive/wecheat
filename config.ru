@@ -1,4 +1,4 @@
 require 'rack'
-require './wechat'
+require './wecheat'
 
-Rack::Handler::WEBrick.run WechatFaker
+Rack::Handler::WEBrick.run WecheatApp

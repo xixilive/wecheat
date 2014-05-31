@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Medias<span class="badge pull-right"><%=  app.medias.size %></span></div>
+  <ul class="list-group">
+  <% app.medias.each do |media| %>
+  <li class="list-group-item">
+    <span class="badge"><%= media.type %></span>
+    <span class="label label-default">ID</span> <%= media.id %>
+  </li>
+  <% end %>
+  </ul>
+</div>

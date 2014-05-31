@@ -2,10 +2,10 @@ require './models'
 
 desc "setup faked data"
 task :setup do
-  Wechat::Models.setup
+  Wecheat::Models.setup
 end
 
 desc "clear faked data"
 task :purge do
-  Wechat::Models.purge
+  Wecheat::Models.purge
 end

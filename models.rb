@@ -1,8 +1,10 @@
 require 'faker'
 require 'uri'
+require 'hashie'
+require 'fileutils'
 require './utils'
 
-module Wechat
+module Wecheat
   module Models
     def self.store_dir
       File.expand_path('../db', __FILE__)
@@ -14,7 +16,7 @@ module Wechat
 
     def self.setup
       App.new.tap do |app|
-        (rand(5)+1).times do
+        (rand(3)+1).times do
           app.users << User.new
         end
 
@@ -23,10 +25,6 @@ module Wechat
           app.medias << Media.new(type: 'thumb', path: '/medias/sample.jpg')
           app.medias << Media.new(type: 'video', path: '/medias/sample.mp4')
           app.medias << Media.new(type: 'voice', path: '/medias/sample.mp3')
-        end
-
-        (rand(3)+1).times do
-          app.articles << Article.new(pic_path: '/medias/sample.jpg')
         end
       end.save
     end
@@ -78,16 +76,16 @@ module Wechat
       property :users, default: []
       property :medias, default: []
       property :articles, default: []
-      property :button, default: []
+      property :button, default: ->{ Models::Button.new }
 
       def self.find_by_access_token token
         self.all.select{|app| app.access_token == token }.first
       end
 
       def initialize(attributes = {}, &block)
-        attributes[:id] ||= Wechat::Utils.rand_appid
-        attributes[:secret] ||= Wechat::Utils::rand_secret
-        attributes[:access_token] ||= Wechat::Utils.rand_token
+        attributes[:id] ||= Wecheat::Utils.rand_appid
+        attributes[:secret] ||= Wecheat::Utils::rand_secret
+        attributes[:access_token] ||= Wecheat::Utils.rand_token
         super(attributes, &block)
       end
 
@@ -96,12 +94,16 @@ module Wechat
       end
 
       def base_url append_params = {}
-        signed_params = Wechat::Utils.sign_params({
+        signed_params = Wecheat::Utils.sign_params({
           timestamp: Time.now.to_i,
-          nonce: Wechat::Utils.rand_secret
+          nonce: Wecheat::Utils.rand_secret
         }.merge(append_params), self.token)
         segments = [self.url, URI.encode_www_form(signed_params)]
         (self.url.to_s.include?('?') ? segments.join("&") : segments.join("?")).gsub(/(\?\&)|(\&\?)/,'?')
+      end
+
+      def url?
+        self[:url].to_s.empty? == false
       end
 
       def label
@@ -116,13 +118,17 @@ module Wechat
         find_resource :medias, :id, id
       end
 
+      def medias_by_type type
+        self.medias.select{|m| m.type.to_s == type.to_s }
+      end
+
       def article id
         find_resource :articles, :id, id
       end
 
       private
       def find_resource name, key, value
-        self[name].select{|o| o[key] == value }.first
+        self[name].select{|o| o[key].to_s == value.to_s }.first
       end
     end
 
@@ -136,14 +142,14 @@ module Wechat
       property :city, required: true
       property :province, required: true
       property :country,  required: true
-      property :headimgurl, default: ''
+      property :headimgurl, default: 'https://avatars1.githubusercontent.com/u/715278?u=fc3166596a089d54223b3fdcd5d0a530854d8ebf&s=140'
       property :subscribe_time, required: true
       property :latitude, required: true
       property :longitude, required: true
       property :precision, required: true
 
       def initialize(attributes = {}, &block)
-        attributes[:openid] ||= Wechat::Utils.rand_openid
+        attributes[:openid] ||= Wecheat::Utils.rand_openid
         attributes[:nickname] ||= Faker::Internet.user_name
         attributes[:sex] ||= %w(0 1 2)[rand(3)]
         attributes[:city] ||= Faker::Address.city
@@ -172,28 +178,33 @@ module Wechat
 
     end
 
-    class Article < Hashie::Dash
-      include Hashie::Extensions::IgnoreUndeclared
-      property :id, required: true
-      property :title, required: true
-      property :description, required: true
-      property :pic_path, required: true, default: ''
+    class Button < Hashie::Dash
+      property :button, default: []
 
-      def initialize(attributes = {}, &block)
-        attributes[:id] ||= (Time.now.to_i | rand(100000))
-        attributes[:title] ||= Faker::Lorem.sentence
-        attributes[:description] ||= Faker::Lorem.paragraph
-        super(attributes, &block)
+      def items
+        self.button.collect do |btn|
+          item = Item.new(btn)
+        end
       end
 
-    end
+      class Item < Hashie::Dash
+        include Hashie::Extensions::IgnoreUndeclared
+        property :name, required: true
+        property :type
+        property :key
+        property :url
+        property :sub_button, default: []
 
-    class Button < Hashie::Dash
-      include Hashie::Extensions::IgnoreUndeclared
-      property :type, required: true
-      property :name, required: true
-      property :key
-      property :url
+        def sub_items?
+          self.sub_button.size > 0
+        end
+
+        def items
+          self.sub_button.collect do |btn|
+            item = Item.new(btn)
+          end
+        end
+      end
     end
 
   end

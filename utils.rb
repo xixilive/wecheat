@@ -1,6 +1,6 @@
 require 'digest/sha1'
 
-module Wechat
+module Wecheat
   module Utils
     extend self
 
