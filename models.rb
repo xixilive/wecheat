@@ -5,6 +5,24 @@ require 'fileutils'
 require './utils'
 
 module Wecheat
+  class << self
+    def log_received_message message
+      File.open(message_file, 'w'){|f| f.puts message }
+    end
+
+    def read_received_message
+      msg = JSON.parse(File.open(message_file, 'r').read) rescue nil
+      FileUtils.rm_rf(message_file)
+      msg
+    end
+
+    private
+    def message_file
+      File.expand_path('../db/message.log', __FILE__)
+    end
+  end
+  
+
   module Models
     def self.store_dir
       File.expand_path('../db', __FILE__)
@@ -42,23 +60,51 @@ module Wecheat
       end
 
       module Persistable
-        attr_reader :filename
+        attr_reader :filename, :store_dir
 
         def write
-          File.open(file_path, 'w'){|f| f.puts self.to_yaml }
+          File.open(store_dir, 'w'){|f| f.puts self.to_yaml }
         end
         alias :save :write
 
         def delete
-          FileUtils.rm_rf(file_path)
+          FileUtils.rm_rf(store_dir)
         end
         alias :remove :delete
 
-        private
-        def file_path
+        def store_dir
           File.join(Models.store_dir, "#{filename}.yml")
         end
 
+      end
+    end
+
+    class Button < Hashie::Dash
+      property :button, default: []
+
+      def items
+        self.button.collect do |btn|
+          item = Item.new(btn)
+        end
+      end
+
+      class Item < Hashie::Dash
+        include Hashie::Extensions::IgnoreUndeclared
+        property :name, required: true
+        property :type
+        property :key
+        property :url
+        property :sub_button, default: []
+
+        def sub_items?
+          self.sub_button.size > 0
+        end
+
+        def items
+          self.sub_button.collect do |btn|
+            item = Item.new(btn)
+          end
+        end
       end
     end
 
@@ -76,7 +122,7 @@ module Wecheat
       property :users, default: []
       property :medias, default: []
       property :articles, default: []
-      property :button, default: ->{ Models::Button.new }
+      property :button
 
       def self.find_by_access_token token
         self.all.select{|app| app.access_token == token }.first
@@ -86,6 +132,7 @@ module Wecheat
         attributes[:id] ||= Wecheat::Utils.rand_appid
         attributes[:secret] ||= Wecheat::Utils::rand_secret
         attributes[:access_token] ||= Wecheat::Utils.rand_token
+        attributes[:button] ||= Models::Button.new
         super(attributes, &block)
       end
 
@@ -176,35 +223,6 @@ module Wecheat
         super(attributes, &block)
       end
 
-    end
-
-    class Button < Hashie::Dash
-      property :button, default: []
-
-      def items
-        self.button.collect do |btn|
-          item = Item.new(btn)
-        end
-      end
-
-      class Item < Hashie::Dash
-        include Hashie::Extensions::IgnoreUndeclared
-        property :name, required: true
-        property :type
-        property :key
-        property :url
-        property :sub_button, default: []
-
-        def sub_items?
-          self.sub_button.size > 0
-        end
-
-        def items
-          self.sub_button.collect do |btn|
-            item = Item.new(btn)
-          end
-        end
-      end
     end
 
   end

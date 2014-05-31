@@ -13,7 +13,6 @@ class WecheatApp < Sinatra::Base
     set :method_override, true
   end
 
-  use Rack::Session::Pool, expire_after: 300
   helpers Wecheat::FormHelpers
   helpers Wecheat::UrlHelpers
   helpers Wecheat::HtmlHelpers
@@ -32,6 +31,10 @@ class WecheatApp < Sinatra::Base
   delete '/' do
     Wecheat::Models.purge
     redirect to('/')
+  end
+
+  get '/last_message' do
+    json Wecheat.read_received_message
   end
 
   include Wecheat::Controllers

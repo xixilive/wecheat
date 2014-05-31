@@ -8,8 +8,15 @@ $(function(){
   }
 
   function fetch_messages(){
-    $.get('/messages')
-  }
+    $.get('/last_message', function(data){
+      if(data){
+        notify('info', 'New message received', data.response);
+      }
+    }).complete(function(){ 
+      setTimeout(fetch_messages, 3000);
+    });
+  };
+  fetch_messages();
 
   $(document).ajaxError(function(e, xhr, config, err){
     notify('error', 'Error raised for request', err.toString());
