@@ -1,7 +1,17 @@
 WeCheat
 ====
 
-模仿Wechat服务器行为，辅助微信公众平台开发。
+Wechat Api faker, 模拟Wechat API，帮助你开发与调试微信公众平台应用
+
+
+Features
+----
+* 基于Sinatra Framework
+* 使用Bootstrap UI
+* 支持多个应用
+* 仿真数据
+* 消息验证
+* 接收与发送文本，图片，视频，语音，位置等消息与事件通知
 
 Install
 ----
@@ -11,7 +21,7 @@ git clone https://github.com/xixilive/wecheat
 bundle install
 ```
 
-Setup and Purge data for mock
+Setup or Purge data for faking
 ----
 ```
 rake setup or purge

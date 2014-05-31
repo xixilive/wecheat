@@ -84,7 +84,7 @@ module Wecheat::Controllers
           end
 
           begin
-            json error: false, response: RestClient.post(@app.base_url, xml: builder.to_hash).to_s
+            json error: false, response: RestClient.post(@app.base_url, builder.to_xml).to_s
           rescue => e
             json error: e
           end

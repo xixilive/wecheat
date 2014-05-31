@@ -8,7 +8,7 @@ $(function(){
   }
 
   function fetch_messages(){
-    $.get('/last_message', function(data){
+    $.get('/message', function(data){
       if(data){
         notify('info', 'New message received', data.response);
       }

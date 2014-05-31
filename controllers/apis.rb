@@ -15,7 +15,7 @@ module Wecheat::Controllers
 
         # to receive message from out-site app
         post '/api/message/custom/send' do
-          Wecheat.log_received_message({app: @app.label, response: Apis.read_body(request.body, false)}.to_json)
+          Wecheat::Utils.log_received_message({app: @app.label, response: Apis.read_body(request.body, false)}.to_json)
           json errcode: 0
         end
 

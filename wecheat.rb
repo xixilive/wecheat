@@ -33,8 +33,8 @@ class WecheatApp < Sinatra::Base
     redirect to('/')
   end
 
-  get '/last_message' do
-    json Wecheat.read_received_message
+  get '/message' do
+    json Wecheat::Utils.read_received_message
   end
 
   include Wecheat::Controllers

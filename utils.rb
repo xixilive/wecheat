@@ -1,4 +1,5 @@
 require 'digest/sha1'
+require 'fileutils'
 
 module Wecheat
   module Utils
@@ -25,7 +26,26 @@ module Wecheat
       params.merge(signature: sign)
     end
 
+    def log_received_message message
+      File.open(message_file, 'w'){|f| f.puts message }
+      File.open(message_tmp_file, 'w'){|f| f.puts message }
+    end
+
+    def read_received_message
+      msg = JSON.parse(File.open(message_tmp_file, 'r').read) rescue nil
+      FileUtils.rm_rf(message_tmp_file)
+      msg
+    end
+
     private
+    def message_file
+      File.expand_path('../db/message.log', __FILE__)
+    end
+
+    def message_tmp_file
+      File.expand_path('../db/message.tmp', __FILE__)
+    end
+
     def chars
       @chars ||= (('a'..'z').to_a | ('A'..'Z').to_a | (0..9).to_a)
     end
