@@ -43,21 +43,17 @@ module Wecheat
       end
 
       module Persistable
-        attr_reader :filename, :store_dir
+        attr_reader :filename
 
         def write
-          File.open(store_dir, 'w'){|f| f.puts self.to_yaml }
+          File.open(File.join(Models.store_dir, "#{filename}.yml"), 'w'){|f| f.puts self.to_yaml }
         end
         alias :save :write
 
         def delete
-          FileUtils.rm_rf(store_dir)
+          FileUtils.rm_rf(File.join(Models.store_dir, "#{filename}.yml"))
         end
         alias :remove :delete
-
-        def store_dir
-          File.join(Models.store_dir, "#{filename}.yml")
-        end
 
       end
     end

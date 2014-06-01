@@ -79,6 +79,10 @@ module Wecheat::Controllers
               
               #voice message
               b.cdata 'Format', 'mp3' if type == 'voice'
+
+              #recognition of voice if present
+              b.cdata 'Recognition', params[:recognition] if type == 'voice' && params[:recognition].to_s.strip != ''
+            
             end
 
           end
