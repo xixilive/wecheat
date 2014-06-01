@@ -1,15 +1,13 @@
 module Wecheat::Models
-
-  class Media < Hashie::Dash
+  class Group < Hashie::Dash
     include Hashie::Extensions::IgnoreUndeclared
     property :id, required: true
-    property :type, required: true, default: ''
-    property :path, required: true, default: ''
+    property :name, required: true, default: 'unamed'
 
     def initialize(attributes = {}, &block)
       attributes[:id] ||= Time.now.strftime('%s%L')
       super(attributes, &block)
     end
-  end
 
+  end
 end

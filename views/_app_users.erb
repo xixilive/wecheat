@@ -5,6 +5,7 @@
   <li class="list-group-item clearfix">
     <span class="label label-default">OpenID</span> <span class="text-muted"><%= user.openid %></span>
     <span class="label label-default">Nickname</span> <a class="btn btn-link" data-toggle="modal" href="#user-modal-<%= user.openid %>"><%= user.nickname %></a>
+    <span class="label label-default">Group</span> <%= app.user_group_name(user) %>
   </li>
   <li class="list-group-item">
     <div class="row">

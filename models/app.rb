@@ -13,8 +13,8 @@ module Wecheat::Models
     property :url,  default: ''
     property :users, default: []
     property :medias, default: []
-    property :articles, default: []
     property :button
+    property :groups, default: []
 
     def self.find_by_access_token token
       self.all.select{|app| app.access_token == token }.first
@@ -61,8 +61,16 @@ module Wecheat::Models
       self.medias.select{|m| m.type.to_s == type.to_s }
     end
 
-    def article id
-      find_resource :articles, :id, id
+    def group id
+      find_resource :groups, :id, id
+    end
+
+    def group_users gid
+      users.select{|u| u.group_id.to_s == gid.to_s }
+    end
+
+    def user_group_name u
+      (group(u.group_id)||{})[:name]
     end
 
     private

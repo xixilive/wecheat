@@ -8,12 +8,11 @@ module Wecheat::Controllers
     def self.included base
       base.class_eval do
 
-        before /^\/api\/(message|user|menu|media)/ do
+        before /^\/api\/(?<!token)/ do
           @app ||= Wecheat::Models::App.find_by_access_token(params[:access_token])
           halt(json errcode: 40012) if @app.nil?
         end
 
-        # to receive message from out-site app
         post '/api/message/custom/send' do
           Wecheat::Utils.log_received_message({app: @app.label, response: Apis.read_body(request.body, false)}.to_json)
           json errcode: 0
@@ -33,6 +32,50 @@ module Wecheat::Controllers
 
         get '/api/user/info' do
           json @app.user(params[:openid]) || {errcode: 46004}
+        end
+
+        post '/api/groups/create' do
+          group = Wecheat::Models::Group.new(params[:group])
+          if group
+            @app.groups << group
+            @app.save
+            json group: group
+          else
+            json errcode: 40050
+          end
+        end
+
+        get '/api/groups/get' do
+          json groups: @app.groups.collect{|g| {id: g.id, name: g.name, count: @app.users.select{|u| u.group_id.to_s == g.id.to_s }.size } }
+        end
+
+        post '/api/groups/getid' do
+          if user = @app.user(params[:openid])
+            json group_id: user.group_id
+          else
+            json errcode: 40003
+          end
+        end
+
+        post '/api/groups/update' do
+          group = @app.group((params[:group]||{})[:id])
+          if group
+            group.name = params[:group][:name]
+            @app.save
+            json errcode: 0
+          else
+            json json errcode: 40050
+          end
+        end
+
+        post '/api/groups/members/update' do
+          if user = @app.user(params[:openid])
+            user.group_id = params[:to_groupid]
+            @app.save
+            json errcode: 0
+          else
+            json errcode: 40050
+          end
         end
 
         post '/api/menu/create' do

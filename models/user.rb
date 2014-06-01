@@ -15,6 +15,7 @@ module Wecheat::Models
     property :latitude, required: true
     property :longitude, required: true
     property :precision, required: true
+    property :group_id
 
     def initialize(attributes = {}, &block)
       attributes[:openid] ||= Wecheat::Utils.rand_openid

@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Groups<span class="badge pull-right"><%=  app.groups.size %></span></div>
+  <ul class="list-group">
+  <% app.groups.each do |group| %>
+  <li class="list-group-item">
+    <span class="label label-default">ID</span> <%= group.id %>
+    <span class="label label-default">Name</span> <%= group.name %>
+    <span class="badge"><%= app.group_users(group.id).size %> users</span>
+  </li>
+  <% end %>
+  </ul>
+</div>

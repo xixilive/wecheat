@@ -28,6 +28,7 @@
   </div>
 
   <div class="col-sm-7">
+    <%= erb :_app_groups, locals: {app: app} %>
     <%= erb :_app_users, locals: {app: app} %>
     <%= erb :_app_medias, locals: {app: app} %>
   </div>
