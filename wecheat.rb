@@ -5,12 +5,15 @@ require 'erb'
 
 require './models'
 require './helpers'
-require './controllers'
 
 class WecheatApp < Sinatra::Base
 
   configure do
     set :method_override, true
+  end
+
+  before do
+    request.body.set_encoding('utf-8')
   end
 
   helpers Wecheat::FormHelpers
@@ -37,5 +40,6 @@ class WecheatApp < Sinatra::Base
     json Wecheat::Utils.read_received_message
   end
 
-  include Wecheat::Controllers
 end
+
+Dir[File.expand_path('./controllers/*.rb')].each{|f| require f }
