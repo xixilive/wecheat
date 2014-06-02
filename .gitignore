@@ -1,2 +1,3 @@
 db/*
+/Gemfile.lock
 !.gitkeep
