@@ -7,7 +7,8 @@
     <div class="thumbnail">
       <div class="qrcode" data-text="<%= uri("/scan/#{code.ticket}/#{user.openid}/1") %>"></div>
       <div><span class="label label-info"><%= code.action_name %></span></div>
-      <div><span class="label label-default">TICKET <%= code.ticket %></span></div>
+      <div class="text-left"><span class="label label-default">TICKET</span> <%= code.ticket %></div>
+      <div class="text-left"><span class="label label-default">SCENE ID</span> <%= code.scene_id %></div>
     </div>
   </div>
   <% end %>
@@ -20,7 +21,8 @@
     <div class="thumbnail">
       <div class="qrcode" data-text="<%= uri("/scan/#{code.ticket}/#{user.openid}/0") %>"></div>
       <div><span class="label label-info"><%= code.action_name %></span></div>
-      <div><span class="label label-default">TICKET <%= code.ticket %></span></div>
+      <div class="text-left"><span class="label label-default">TICKET</span> <%= code.ticket %></div>
+      <div class="text-left"><span class="label label-default">SCENE ID</span> <%= code.scene_id %></div>
     </div>
   </div>
   <% end %>

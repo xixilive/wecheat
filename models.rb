@@ -15,7 +15,7 @@ module Wecheat
       end
 
       def setup
-        App.new.tap do |app|
+        app = App.new.tap do |app|
           (rand(3)+1).times do
             app.users << User.new
           end
@@ -27,6 +27,8 @@ module Wecheat
             app.medias << Media.new(type: 'voice', path: '/medias/sample.mp3')
           end
         end.save
+
+        QRCode.new(appid: app.id, action_name: 'QR_SCENE', scene_id: 2014).save
       end
     end
 
