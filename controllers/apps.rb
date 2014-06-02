@@ -35,6 +35,10 @@ class WecheatApp
     redirect to("/apps/#{@app.id}"), 302
   end
 
+  get '/apps/:id/qrcodes/:openid' do
+    erb :qrcodes, locals: { app: @app, user: @app.user(params[:openid]) }
+  end
+
   get '/apps/:id/message' do
     erb :message, locals: { app: @app }
   end

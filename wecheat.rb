@@ -40,6 +40,27 @@ class WecheatApp < Sinatra::Base
     json Wecheat::Utils.read_received_message
   end
 
+  get '/scan/:ticket/:openid/:type' do
+    qrcode = Wecheat::Models::QRCode.find(params[:ticket])
+
+    builder = Wecheat::MessageBuilder.new.tap do |b|
+      b.CreateTime = Time.now.to_i
+      b.cdata 'ToUserName', app.label
+      b.cdata 'FromUserName', params[:openid]
+      b.cdata 'MsgType', 'event'
+      b.cdata 'Event', 'subscribe'
+      b.cdata 'EventKey', params[:type] == 0 ? "qrscene_#{qrcode.scene_id}" : qrcode.scene_id
+      b.cdata 'Ticket', qrcode.ticket
+    end
+
+    begin
+      RestClient.post(app.base_url, builder.to_xml).to_s
+    rescue => e
+      e.inspect
+    end
+
+  end
+
 end
 
 Dir[File.expand_path('./controllers/*.rb')].each{|f| require f }

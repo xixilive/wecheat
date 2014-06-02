@@ -1,6 +1,6 @@
 class WecheatApp
 
-  before /^\/api\/(?<!token)/ do
+  before /^\/api\/(?!(token|showqrcode))/ do
     @app ||= Wecheat::Models::App.find_by_access_token(params[:access_token])
     halt(json errcode: 40014) if @app.nil?
   end

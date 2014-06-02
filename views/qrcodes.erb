@@ -1,0 +1,27 @@
+<h3>Current App: <a href="/apps/<%= app.id %>"><%= app.label %></a>, Current User: <%= user.nickname %></h3>
+<hr/>
+<h4>Subscribed scene</h4>
+<div class="row">
+  <% app.qrcodes.each do |code| %>
+  <div class="col-sm-4 text-center">
+    <div class="thumbnail">
+      <div class="qrcode" data-text="<%= uri("/scan/#{code.ticket}/#{user.openid}/1") %>"></div>
+      <div><span class="label label-info"><%= code.action_name %></span></div>
+      <div><span class="label label-default">TICKET <%= code.ticket %></span></div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<h4>Un-subscribed scene</h4>
+<div class="row">
+  <% app.qrcodes.each do |code| %>
+  <div class="col-sm-4 text-center">
+    <div class="thumbnail">
+      <div class="qrcode" data-text="<%= uri("/scan/#{code.ticket}/#{user.openid}/0") %>"></div>
+      <div><span class="label label-info"><%= code.action_name %></span></div>
+      <div><span class="label label-default">TICKET <%= code.ticket %></span></div>
+    </div>
+  </div>
+  <% end %>
+</div>

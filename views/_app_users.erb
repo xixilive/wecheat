@@ -16,12 +16,13 @@
             <li><a href="/events/subscribe/<%= app.id %>/<%= user.openid %>" rel="event">订阅</a></li>
             <li><a href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>" rel="event">取消订阅</a></li>
             <li class="divider"></li>
-            <li><a href="/events/subscribe/<%= app.id %>/<%= user.openid %>?event_key=qrscene_1" rel="event">扫码(未关注)</a></li>
+            <!-- <li><a href="/events/subscribe/<%= app.id %>/<%= user.openid %>?event_key=qrscene_1" rel="event">扫码(未关注)</a></li>
             <li><a href="/events/unsubscribe/<%= app.id %>/<%= user.openid %>?event_key=1" rel="event">扫码(已关注)</a></li>
-            <li class="divider"></li>
+            <li class="divider"></li> -->
             <li><a href="/events/LOCATION/<%= app.id %>/<%= user.openid %>" rel="event">Location</a></li>
           </ul>
         </div>
+        <a class="btn btn-default" href="/apps/<%= app.id %>/qrcodes/<%= user.openid %>"><i class="fa fa-qrcode"></i></a>
       </div>
       <div class="col-sm-8 text-right">
         <div class="btn-group">

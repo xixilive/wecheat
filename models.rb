@@ -31,29 +31,45 @@ module Wecheat
     end
 
     module Concerns
-      module Findable
-        def find id
-          file = File.join(Models.store_dir, "#{id}.yml")
-          self.new(YAML.load_file(file)) if File.exist?(file)
-        end
-
-        def all
-          Dir[File.join(Models.store_dir, "*.yml")].collect{|f| self.new(YAML.load_file(f)) }.compact
-        end
-      end
-
       module Persistable
-        attr_reader :filename
+
+        def self.included base
+          base.extend ClassMethods
+        end
 
         def write
-          File.open(File.join(Models.store_dir, "#{filename}.yml"), 'w'){|f| f.puts self.to_yaml }
+          FileUtils.mkdir_p(self.class.store_dir) unless Dir.exist?(self.class.store_dir)
+          File.open(file_path, 'w'){|f| f.puts self.to_yaml }
+          self
         end
         alias :save :write
 
         def delete
-          FileUtils.rm_rf(File.join(Models.store_dir, "#{filename}.yml"))
+          FileUtils.rm_rf(file_path)
         end
         alias :remove :delete
+
+        def filename;raise NotImplementedError.new; end
+
+        private
+        def file_path
+          File.join(self.class.store_dir, "#{filename}.yml")
+        end
+
+        module ClassMethods
+          def find id
+            file = File.join(self.store_dir, "#{id}.yml")
+            self.new(YAML.load_file(file)) if File.exist?(file)
+          end
+
+          def all
+            Dir[File.join(self.store_dir, "*.yml")].collect{|f| self.new(YAML.load_file(f)) }.compact
+          end
+
+          def store_dir
+            Models.store_dir
+          end
+        end
 
       end
     end

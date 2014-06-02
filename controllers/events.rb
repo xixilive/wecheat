@@ -16,12 +16,6 @@ class WecheatApp
       b.cdata 'Event', params[:type]
 
       case params[:type].to_s.downcase
-      when 'subscribe'
-        unless params[:event_key].nil?
-          b.cdata 'EventKey', params[:event_key] 
-          b.cdata 'Ticket', @app.id
-        end
-
       when 'location'
         b.cdata 'Latitude', @user.latitude
         b.cdata 'Longitude', @user.longitude

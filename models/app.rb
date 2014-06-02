@@ -3,7 +3,6 @@ module Wecheat::Models
   class App < Hashie::Dash
     include Hashie::Extensions::IgnoreUndeclared
     include Concerns::Persistable
-    extend Concerns::Findable
 
     property :id, required: true
     property :secret, required: true
@@ -20,16 +19,16 @@ module Wecheat::Models
       self.all.select{|app| app.access_token == token }.first
     end
 
+    def self.store_dir
+      File.join(Wecheat::Models.store_dir, 'apps')
+    end
+
     def initialize(attributes = {}, &block)
       attributes[:id] ||= Wecheat::Utils.rand_appid
       attributes[:secret] ||= Wecheat::Utils::rand_secret
       attributes[:access_token] ||= Wecheat::Utils.rand_token
       attributes[:button] ||= Wecheat::Models::Button.new
       super(attributes, &block)
-    end
-
-    def filename
-      self.id
     end
 
     def base_url append_params = {}
@@ -71,6 +70,14 @@ module Wecheat::Models
 
     def user_group_name u
       (group(u.group_id)||{})[:name]
+    end
+
+    def filename
+      self.id
+    end
+
+    def qrcodes
+      @qrcodes ||= Wecheat::Models::QRCode.all.select{|qr| qr.appid.to_s == self.id.to_s }
     end
 
     private

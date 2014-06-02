@@ -61,4 +61,9 @@ $(function(){
       })
     return false;
   });
+
+  $('.qrcode').each(function(){
+    var data = $.extend($(this).data(),{width: 200, height: 200});
+    $(this).qrcode(data);
+  });
 });
