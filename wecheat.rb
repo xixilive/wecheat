@@ -42,7 +42,7 @@ class WecheatApp < Sinatra::Base
 
   get '/scan/:ticket/:openid/:type' do
     qrcode = Wecheat::Models::QRCode.find(params[:ticket])
-
+    app = qrcode.app
     builder = Wecheat::MessageBuilder.new.tap do |b|
       b.CreateTime = Time.now.to_i
       b.cdata 'ToUserName', app.label
