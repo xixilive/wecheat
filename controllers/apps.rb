@@ -48,7 +48,7 @@ class WecheatApp
     user, type = @app.user(message[:user]), message[:type]
     halt 404 if user.nil?
 
-    builder = Wecheat::MessageBuilder.new.tap do |b|
+    data = Wecheat::MessageBuilder.new.tap do |b|
       b.cdata 'ToUserName', @app.label
       b.cdata 'FromUserName', message[:user]
       b.cdata 'MsgType', type
@@ -82,13 +82,13 @@ class WecheatApp
 
         #recognition of voice if present
         b.cdata 'Recognition', params[:recognition] if type == 'voice' && params[:recognition].to_s.strip != ''
-      
       end
-
-    end
+    end.to_xml
 
     begin
-      json error: false, response: RestClient.post(@app.base_url, builder.to_xml).to_s
+      res = RestClient.post(@app.base_url, data, content_type: 'text/xml; charset=utf-8')
+      res.force_encoding('utf-8') unless res.encoding.name == 'UTF-8'
+      json error: false, response: res
     rescue => e
       json error: e
     end

@@ -27,7 +27,9 @@ class WecheatApp
     end
 
     begin
-      json error: false, response: RestClient.post(app.base_url, builder.to_xml).to_s
+      res = RestClient.post(@app.base_url, data, content_type: 'text/xml; charset=utf-8')
+      res.force_encoding('utf-8') unless res.encoding.name == 'UTF-8'
+      json error: false, response: res
     rescue => e
       json error: true, response: e.inspect
     end
