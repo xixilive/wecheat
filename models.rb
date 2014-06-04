@@ -11,7 +11,7 @@ module Wecheat
       end
 
       def purge
-        Dir[File.join(Models.store_dir, "*.yml")].each{|f| FileUtils.rm_rf(f) }
+        Dir[File.join(Models.store_dir, "**/*.yml")].each{|f| FileUtils.rm_rf(f) }
       end
 
       def setup
@@ -64,12 +64,19 @@ module Wecheat
             self.new(YAML.load_file(file)) if File.exist?(file)
           end
 
-          def all
-            Dir[File.join(self.store_dir, "*.yml")].collect{|f| self.new(YAML.load_file(f)) }.compact
+          def count
+            files_collection.size
           end
 
-          def store_dir
-            Models.store_dir
+          def all
+            files_collection.collect{|f| self.new(YAML.load_file(f)) }.compact
+          end
+
+          def store_dir; raise NotImplementedError.new; end
+
+          private
+          def files_collection
+            Dir[File.join(self.store_dir, "*.yml")]
           end
         end
 

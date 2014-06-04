@@ -27,7 +27,7 @@ module Wecheat
     end
 
     def log_received_message message
-      File.open(message_file, 'w'){|f| f.puts message }
+      File.open(message_file, 'a'){|f| f.puts message }
       File.open(message_tmp_file, 'w'){|f| f.puts message }
     end
 

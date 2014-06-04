@@ -8,7 +8,7 @@ class WecheatApp
   end
 
   post '/events/:type/:appid/:openid' do
-    builder = Wecheat::MessageBuilder.new.tap do |b|
+    data = Wecheat::MessageBuilder.new.tap do |b|
       b.CreateTime = Time.now.to_i
       b.cdata 'ToUserName', @app.label
       b.cdata 'FromUserName', @user.openid
@@ -24,7 +24,7 @@ class WecheatApp
       when 'click', 'view'
         b.cdata 'EventKey', params[:event_key]
       end
-    end
+    end.to_xml
 
     begin
       res = RestClient.post(@app.base_url, data, content_type: 'text/xml; charset=utf-8')

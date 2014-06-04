@@ -37,6 +37,10 @@ class WecheatApp < Sinatra::Base
   end
 
   get '/message' do
+    if mass = Wecheat::Models::Mass.first
+      RestClient.post(mass.app.base_url, mass.response, content_type: 'application/xml; charset=utf-8')
+      mass.remove
+    end
     json Wecheat::Utils.read_received_message
   end
 
@@ -49,7 +53,7 @@ class WecheatApp < Sinatra::Base
       b.cdata 'FromUserName', params[:openid]
       b.cdata 'MsgType', 'event'
       b.cdata 'Event', 'subscribe'
-      b.cdata 'EventKey', params[:type] == 0 ? "qrscene_#{qrcode.scene_id}" : qrcode.scene_id
+      b.cdata 'EventKey', params[:type].to_i == 0 ? "qrscene_#{qrcode.scene_id}" : qrcode.scene_id
       b.cdata 'Ticket', qrcode.ticket
     end
 
