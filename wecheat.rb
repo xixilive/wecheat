@@ -41,6 +41,7 @@ class WecheatApp < Sinatra::Base
       RestClient.post(mass.app.base_url, mass.response, content_type: 'application/xml; charset=utf-8')
       mass.remove
     end
+    #一个轮询周期(默认5秒)内，最后收到的消息将覆盖之前收到的消息，所以请避免在一个周期内发送超过1次
     json Wecheat::Utils.read_received_message
   end
 

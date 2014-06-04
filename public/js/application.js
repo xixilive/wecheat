@@ -13,7 +13,7 @@ $(function(){
         notify('info', 'New message received', data.response);
       }
     }).complete(function(){ 
-      setTimeout(fetch_messages, 3000);
+      setTimeout(fetch_messages, 5000);
     });
   };
   fetch_messages();
