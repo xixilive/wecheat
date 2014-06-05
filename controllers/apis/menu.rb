@@ -1,6 +1,6 @@
 class WecheatApp
   post '/api/menu/create' do
-    @app.button = Wecheat::Models::Button.new(request.body.string) rescue nil
+    @app.button = Wecheat::Models::Button.new(JSON.parse(request.body.string)) rescue nil
     if @app.button
       @app.save
       json errcode: 0
