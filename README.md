@@ -1,8 +1,7 @@
-WeCheat
+Wecheat
 ====
 
-Wechat Api faker, 模拟Wechat API，帮助你开发与调试微信公众平台应用
-
+Wechat Api faker(微信公众平台API模拟器), 帮助你开发与调试微信公众平台应用。
 
 Features
 ----
@@ -13,15 +12,13 @@ Features
 * 消息验证
 * 接收与发送文本，图片，视频，语音，位置等消息与事件通知
 * 模拟用户扫码
-* 群发功能
+* 微信消息群发功能
 * 获取客服聊天记录
 
-Install
+Quick Start
 ----
 ```
-git clone https://github.com/xixilive/wecheat
-
-bundle install
+git clone https://github.com/xixilive/wecheat && cd wecheat && bundle install && rackup
 ```
 
 Setup or Purge data for faking
@@ -47,3 +44,6 @@ Screenshots
 ![Screen shot4](http://img.hb.aicdn.com/6fad2fc23384bf1ac6f0921187bd23de47fd053819a62-HDAkfk)
 
 ![Screen shot5](http://img.hb.aicdn.com/70d31b664bb1ea2c6eb05eff37cc5840bd2ccb25d26a-NYkiOr)
+
+
+喜欢点赞(Star)是美德！
