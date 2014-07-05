@@ -1,6 +1,7 @@
 require 'faker'
 require 'uri'
 require 'hashie'
+require 'yaml'
 require './utils'
 
 module Wecheat
