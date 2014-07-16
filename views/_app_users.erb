@@ -28,12 +28,14 @@
         <div class="btn-group">
           <% app.button.items.each do |item| %>
             <% if item.sub_button.size > 0 %>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= item.name %> <span class="caret"></span></button>
-              <ul class="dropdown-menu text-left" role="menu">
-              <% item.items.each do |sub| %>
-              <li><a href="<%= menu_item_url(sub, app.id, user.openid) %>" rel="event"><%= sub.name %></a></li>
-              <% end %>
-              </ul>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= item.name %> <span class="caret"></span></button>
+                <ul class="dropdown-menu text-left" role="menu">
+                <% item.items.each do |sub| %>
+                <li><a href="<%= menu_item_url(sub, app.id, user.openid) %>" rel="event"><%= sub.name %></a></li>
+                <% end %>
+                </ul>
+              </div>
             <% else %>
               <a class="btn btn-default" href="<%= menu_item_url(item, app.id, user.openid) %>" rel="event"><%= item.name %></a>
             <% end %>
