@@ -1,6 +1,6 @@
 $(function(){
   function notify(type, title, text){
-    new PNotify({title: title, text: text, type: type, icon: false, text_escape: true});
+    new PNotify({title: title, text: text, type: type, icon: false, text_escape: true, buttons: {closer: true, sticker: false, sticker_hover: false}});
   }
 
   function reset_button(btn){
