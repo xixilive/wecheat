@@ -1,3 +1,4 @@
 db/*
 /Gemfile.lock
 !.gitkeep
+.DS_Store

@@ -66,4 +66,8 @@ $(function(){
     var data = $.extend($(this).data(),{width: 200, height: 200});
     $(this).qrcode(data);
   });
+
+  $('form[rel="delete-app"]').on('submit', function(){
+    return confirm('你随时可以创建一个新的APP,确定要删除吗？');
+  });
 });

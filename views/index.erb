@@ -12,7 +12,7 @@
     <% apps.each do |app| %>
     <div class="panel panel-default">
       <div class="panel-heading text-center"><%= app.label %></div>
-      <form class="panel-body text-center" method="post" action="/apps/<%= app.id %>">
+      <form class="panel-body text-center" method="post" action="/apps/<%= app.id %>" rel="delete-app">
         <input type="hidden" name="_method" value="DELETE" />
         <div class="btn-group">
           <a class="btn btn-default" href="/apps/<%= app.id %>">Details</a>
@@ -31,7 +31,7 @@
         <span class="text-muted">Needs another App?</span> <button type="submit" class="btn btn-default">New App</button>
       </form>
       <% if apps.size > 3 %>
-      <form class="panel-body text-center" method="post" action="/">
+      <form class="panel-body text-center" method="post" action="/" rel="delete-app">
         <input type="hidden" name="_method" value="DELETE" />
         <span class="text-muted">Want to clear all Apps?</span> <button type="submit" class="btn btn-danger">Clear all Apps</button>
       </form>
