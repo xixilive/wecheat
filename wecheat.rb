@@ -13,7 +13,7 @@ class WecheatApp < Sinatra::Base
   end
 
   before do
-    request.body.set_encoding('utf-8')
+    request.body.set_encoding('utf-8') if request.body.respond_to?(:set_encoding)
   end
 
   helpers Wecheat::FormHelpers
