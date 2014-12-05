@@ -33,17 +33,4 @@ Launch App
 rackup
 ```
 
-Screenshots
-----
-![Screen shot1](http://img.hb.aicdn.com/e710375297765a2f13e195a3718efedeee18a48381d9-nlLxlq)
-
-![Screen shot2](http://img.hb.aicdn.com/7454ec2d83cbb5f53b43a91cdc597f15b64c8b0016930-372lo4)
-
-![Screen shot3](http://img.hb.aicdn.com/5aa30b6a8ef9631a47810c786b0e51435ad5870813ff5-Y0TQgY)
-
-![Screen shot4](http://img.hb.aicdn.com/6fad2fc23384bf1ac6f0921187bd23de47fd053819a62-HDAkfk)
-
-![Screen shot5](http://img.hb.aicdn.com/70d31b664bb1ea2c6eb05eff37cc5840bd2ccb25d26a-NYkiOr)
-
-
 喜欢点赞(Star)是美德！
