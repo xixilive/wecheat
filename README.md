@@ -1,7 +1,7 @@
 Wecheat
 ====
 
-Wechat Api faker(微信公众平台API模拟器), 帮助你开发与调试微信公众平台应用。
+Wechat Api faker(微信公众平台API模拟器), 帮助你开发与调试微信公众平台应用。推荐与[wechat-rails](https://github.com/skinnyworm/wechat-rails)协同使用
 
 Features
 ----
