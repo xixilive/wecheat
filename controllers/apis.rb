@@ -6,7 +6,7 @@ class WecheatApp
   end
 
   post '/api/message/custom/send' do
-    Wecheat::Utils.log_received_message({app: @app.label, response: request.body.string}.to_json)
+    Wecheat::Utils.log_received_message({app: @app.label, response: request.body.read}.to_json)
     json errcode: 0
   end
 
