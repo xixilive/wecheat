@@ -34,3 +34,7 @@ rackup
 ```
 
 喜欢点赞(Star)是美德！
+
+> JS姐致力为Javascript/大前端/NodeJS开发爱好者提供高质量的阅读内容
+
+![Subscribe](./jsister-subscribe.jpg)
