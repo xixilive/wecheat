@@ -1,4 +1,4 @@
-source 'http://ruby.taobao.org'
+source 'https://gems.ruby-china.com'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
