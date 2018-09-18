@@ -31,7 +31,7 @@ open http://localhost:9292
 
 ```
 # git clone https://github.com/xixilive/wecheat && cd wecheat
-docker build -t wecheat .s
+docker build -t wecheat .
 ```
 
 ### run docker container
